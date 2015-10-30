@@ -1,0 +1,25 @@
+--- build_tools/menuselect-deps.in	(Asterisk 13.6.0)
++++ build_tools/menuselect-deps.in	(working copy)
+@@ -6,2 +6,3 @@
+ BISON=@PBX_BISON@
++CODEC2=@PBX_CODEC2@
+ CURL=@PBX_CURL@
+--- configure.ac	(Asterisk 13.6.0)
++++ configure.ac	(working copy)
+@@ -409,2 +409,3 @@
+ AST_EXT_LIB_SETUP([CAP], [POSIX 1.e capabilities], [cap])
++AST_EXT_LIB_SETUP([CODEC2], [Codec 2 Audio Decoder/Encoder], [codec2])
+ AST_EXT_LIB_SETUP([COROSYNC], [Corosync], [cpg])
+@@ -2217,2 +2218,4 @@
+ 
++AST_EXT_LIB_CHECK([CODEC2], [codec2], [codec2_create], [codec2/codec2.h])
++
+ AST_EXT_LIB_CHECK([COROSYNC], [cpg], [cpg_join], [corosync/cpg.h], [-lcfg])
+--- makeopts.in	(Asterisk 13.6.0)
++++ makeopts.in	(working copy)
+@@ -127,2 +127,5 @@
+ 
++CODEC2_INCLUDE=@CODEC2_INCLUDE@
++CODEC2_LIB=@CODEC2_LIB@
++
+ CURL_INCLUDE=@CURL_INCLUDE@

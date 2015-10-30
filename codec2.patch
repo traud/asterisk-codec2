@@ -1,0 +1,103 @@
+--- include/asterisk/format_cache.h	(Asterisk 13.6.0)
++++ include/asterisk/format_cache.h	(working copy)
+@@ -211,2 +211,7 @@
+ /*!
++ * \brief Built-in cached Codec 2 format.
++ */
++extern struct ast_format *ast_format_codec2;
++
++/*!
+  * \brief Built-in cached t140 format.
+--- include/asterisk/format_compatibility.h	(Asterisk 13.6.0)
++++ include/asterisk/format_compatibility.h	(working copy)
+@@ -35,2 +35,3 @@
+ 
++#define AST_FORMAT_CODEC2 (1ULL << 42)
+ /*! G.723.1 compression */
+--- main/codec_builtin.c	(Asterisk 13.6.0)
++++ main/codec_builtin.c	(working copy)
+@@ -106,2 +106,26 @@
+ 
++static int codec2_samples(struct ast_frame *frame)
++{
++	return 160 * (frame->datalen / 6);
++}
++
++static int codec2_length(unsigned int samples)
++{
++	return (samples / 160) * 6;
++}
++
++static struct ast_codec codec2 = {
++	.name = "codec2",
++	.description = "Codec 2",
++	.type = AST_MEDIA_TYPE_AUDIO,
++	.sample_rate = 8000,
++	.minimum_ms = 20,
++	.maximum_ms = 300,
++	.default_ms = 20,
++	.minimum_bytes = 6,
++	.samples_count = codec2_samples,
++	.get_length = codec2_length,
++	.smooth = 0,
++};
++
+ static int none_samples(struct ast_frame *frame)
+@@ -803,2 +827,3 @@
+ 
++	res |= CODEC_REGISTER_AND_CACHE(codec2);
+ 	res |= CODEC_REGISTER_AND_CACHE(g723);
+--- main/format_cache.c	(Asterisk 13.6.0)
++++ main/format_cache.c	(working copy)
+@@ -230,2 +230,9 @@
+ /*!
++ * \brief Built-in cached codec2 format.
++ */
++struct ast_format *ast_format_codec2;
++
++/*!
++
++/*!
+  * \brief Built-in "null" format.
+@@ -294,2 +301,3 @@
+ 
++	ao2_replace(ast_format_codec2, NULL);
+ 	ao2_replace(ast_format_g723, NULL);
+@@ -350,3 +358,5 @@
+ {
+-	if (!strcmp(name, "g723")) {
++	if (!strcmp(name, "codec2")) {
++		ao2_replace(ast_format_codec2, format);
++	} else if (!strcmp(name, "g723")) {
+ 		ao2_replace(ast_format_g723, format);
+--- main/format_compatibility.c	(Asterisk 13.6.0)
++++ main/format_compatibility.c	(working copy)
+@@ -42,3 +42,5 @@
+ {
+-	if (ast_format_cmp(format, ast_format_g723) == AST_FORMAT_CMP_EQUAL) {
++	if (ast_format_cmp(format, ast_format_codec2) == AST_FORMAT_CMP_EQUAL) {
++		return AST_FORMAT_CODEC2;
++	} else if (ast_format_cmp(format, ast_format_g723) == AST_FORMAT_CMP_EQUAL) {
+ 		return AST_FORMAT_G723;
+@@ -109,3 +111,5 @@
+ {
+-	if (codec->id == ast_format_get_codec_id(ast_format_g723)) {
++	if (codec->id == ast_format_get_codec_id(ast_format_codec2)) {
++		return AST_FORMAT_CODEC2;
++	} else if (codec->id == ast_format_get_codec_id(ast_format_g723)) {
+ 		return AST_FORMAT_G723;
+@@ -177,2 +181,4 @@
+ 	switch (bitfield) {
++	case AST_FORMAT_CODEC2:
++		return ast_format_codec2;
+ 	/*! G.723.1 compression */
+--- main/rtp_engine.c	(Asterisk 13.6.0)
++++ main/rtp_engine.c	(working copy)
+@@ -2125,2 +2125,3 @@
+ 	/* Define all the RTP mime types available */
++	set_next_mime_type(ast_format_codec2, 0,  "audio", "CODEC2", 8000);
+ 	set_next_mime_type(ast_format_g723, 0, "audio", "G723", 8000);
+@@ -2171,2 +2172,3 @@
+ 	#endif
++	add_static_payload(126, ast_format_codec2, 0);
+ 	add_static_payload(3, ast_format_gsm, 0);
