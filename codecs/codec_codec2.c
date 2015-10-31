@@ -104,7 +104,7 @@ static struct ast_frame *lintocodec2_frameout(struct ast_trans_pvt *pvt)
 		return NULL;
 	while (pvt->samples >= CODEC2_SAMPLES) {
 	    /* Encode a frame of data */
-	    codec2_encode(tmp->codec2, (unsigned char*)(pvt->outbuf.c + datalen), tmp->buf + samples);
+	    codec2_encode(tmp->codec2, pvt->outbuf.uc + datalen, tmp->buf + samples);
 	    datalen += CODEC2_FRAME_LEN;
 	    samples += CODEC2_SAMPLES;
 	    pvt->samples -= CODEC2_SAMPLES;
