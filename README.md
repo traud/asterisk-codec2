@@ -1,6 +1,11 @@
 # Asterisk patch for Codec 2
 
-Asterisk already supports iLBC 30 and G.729. If you want to reduce further, you could [add AMR](http://github.com/traud/asterisk-amr). However, to go for even more data reduction, this patch adds [Codec 2…](http://www.rowetel.com/codec2.html)
+Asterisk already supports iLBC 30 and G.729. If you want to reduce further, you could [add AMR](http://github.com/traud/asterisk-amr). However, to go for even more data reduction, this patch adds [Codec 2](http://www.rowetel.com/codec2.html).
+
+This patch is for Asterisk 13. If you use an older version of Asterisk, please, have a look at those patches:
+
+* [Asterisk 11…](http://svn.code.sf.net/p/freetel/code/codec2/branches/0.5/asterisk-11/)
+* [Asterisk 1.8…](http://svn.code.sf.net/p/freetel/code/codec2/branches/0.5/asterisk/)
 
 ## Installing the patch
 
@@ -50,7 +55,7 @@ Compile and install:
     sudo make install
 
 ## Testing
-You can test Codec 2 with [CSipSimple](http://play.google.com/store/apps/details?id=com.csipsimple) plus [Codec Pack](http://play.google.com/store/apps/details?id=com.csipsimple.plugins.codecs.pack1).
+You can test Codec 2 with [CSipSimple](http://play.google.com/store/apps/details?id=com.csipsimple) plus it’s [Codec Pack](http://play.google.com/store/apps/details?id=com.csipsimple.plugins.codecs.pack1).
 
 ## Thanks goes to
 * David Rowe, Debian, and Ubuntu for providing the codec and the library.
