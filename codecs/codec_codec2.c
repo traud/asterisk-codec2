@@ -21,15 +21,15 @@
 #include <codec2/codec2.h>
 
 #define BUFFER_SAMPLES    8000
-#define CODEC2_SAMPLES    160
-#define	CODEC2_FRAME_LEN  6
+#define CODEC2_SAMPLES    160  /* consider codec2_samples_per_frame(.) */
+#define CODEC2_FRAME_LEN  6    /* consider codec2_bits_per_frame(.)    */
 
 /* Sample frame data */
 #include "asterisk/slin.h"
 #include "ex_codec2.h"
 
 struct codec2_translator_pvt {
-	struct CODEC2 *codec2; /* May be encoder or decoder */
+	struct CODEC2 *state; /* May be encoder or decoder */
 	int16_t buf[BUFFER_SAMPLES];
 };
 
@@ -37,9 +37,9 @@ static int codec2_new(struct ast_trans_pvt *pvt)
 {
 	struct codec2_translator_pvt *tmp = pvt->pvt;
 
-	tmp->codec2 = codec2_create(CODEC2_MODE_2400);
+	tmp->state = codec2_create(CODEC2_MODE_2400);
 
-	if (!tmp->codec2) {
+	if (!tmp->state) {
 		ast_log(LOG_ERROR, "Error creating Codec 2 conversion\n");
 		return -1;
 	}
@@ -57,7 +57,7 @@ static int codec2tolin_framein(struct ast_trans_pvt *pvt, struct ast_frame *f)
 		unsigned char *src = f->data.ptr + x;
 		int16_t *dst = pvt->outbuf.i16 + pvt->samples;
 
-		codec2_decode(tmp->codec2, dst, src);
+		codec2_decode(tmp->state, dst, src);
 
 		pvt->samples += CODEC2_SAMPLES;
 		pvt->datalen += CODEC2_SAMPLES * 2;
@@ -93,7 +93,7 @@ static struct ast_frame *lintocodec2_frameout(struct ast_trans_pvt *pvt)
 		struct ast_frame *current;
 
 		/* Encode a frame of data */
-		codec2_encode(tmp->codec2, pvt->outbuf.uc, tmp->buf + samples);
+		codec2_encode(tmp->state, pvt->outbuf.uc, tmp->buf + samples);
 
 		samples += CODEC2_SAMPLES;
 		pvt->samples -= CODEC2_SAMPLES;
@@ -122,8 +122,8 @@ static void codec2_destroy_stuff(struct ast_trans_pvt *pvt)
 {
 	struct codec2_translator_pvt *tmp = pvt->pvt;
 
-	if (tmp->codec2) {
-		codec2_destroy(tmp->codec2);
+	if (tmp->state) {
+		codec2_destroy(tmp->state);
 	}
 }
 
