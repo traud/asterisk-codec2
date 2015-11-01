@@ -71,10 +71,6 @@ static int lintocodec2_framein(struct ast_trans_pvt *pvt, struct ast_frame *f)
 {
 	struct codec2_translator_pvt *tmp = pvt->pvt;
 
-	if (pvt->samples + f->samples > BUFFER_SAMPLES) {
-		ast_log(LOG_WARNING, "Out of buffer space\n");
-		return -1;
-	}
 	memcpy(tmp->buf + pvt->samples, f->data.ptr, f->datalen);
 	pvt->samples += f->samples;
 
@@ -168,6 +164,7 @@ static struct ast_translator lintocodec2 = {
 	.destroy = codec2_destroy_stuff,
 	.sample = slin8_sample,
 	.desc_size = sizeof(struct codec2_translator_pvt),
+	.buffer_samples = BUFFER_SAMPLES,
 	.buf_size = (BUFFER_SAMPLES * CODEC2_FRAME_LEN + CODEC2_SAMPLES - 1) / CODEC2_SAMPLES,
 };
 
