@@ -39,7 +39,7 @@
 +	.minimum_bytes = 6,
 +	.samples_count = codec2_samples,
 +	.get_length = codec2_length,
-+	.smooth = 0,
++	.smooth = 1,
 +};
 +
  static int none_samples(struct ast_frame *frame)
