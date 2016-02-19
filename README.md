@@ -1,6 +1,6 @@
 # Asterisk patch for Codec 2
 
-Asterisk already supports iLBC 30 and G.729. If you want to reduce further, you could [add AMR](http://github.com/traud/asterisk-amr). However, to go for even more data reduction, this patch adds [Codec 2](http://www.rowetel.com/codec2.html).
+Asterisk already supports iLBC 30 and G.729. If you want to reduce further, you could [add AMR](http://github.com/traud/asterisk-amr). However, to go for even more data reduction, this patch adds [Codec 2](http://www.rowetel.com/codec2.html) in mode [2400](http://lists.digium.com/pipermail/asterisk-dev/2015-December/075209.html).
 
 This patch is for Asterisk 13. If you use an older version of Asterisk, please, have a look at those patches:
 
