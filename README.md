@@ -2,14 +2,14 @@
 
 Asterisk already supports iLBC 30 and G.729. If you want to reduce further, you could [add AMR](http://github.com/traud/asterisk-amr). However, to go for even more data reduction, this patch adds [Codec 2](http://www.rowetel.com/codec2.html) in mode [2400](http://lists.digium.com/pipermail/asterisk-dev/2015-December/075209.html).
 
-This patch is for Asterisk 13. If you use an older version of Asterisk, please, have a look at those patches:
+This patch is for Asterisk 13. If you use an older version:
 
 * [Asterisk 11…](http://svn.code.sf.net/p/freetel/code/codec2/branches/0.5/asterisk-11/)
 * [Asterisk 1.8…](http://svn.code.sf.net/p/freetel/code/codec2/branches/0.5/asterisk/)
 
 ## Installing the patch
 
-The patch was built on top of Asterisk 13.6.0. If you use a newer version and the patch fails, please, [report](http://help.github.com/articles/creating-an-issue/)!
+The patch was built on top of Asterisk 13.9.0. If you use a newer version and the patch fails, please, [report](http://help.github.com/articles/creating-an-issue/)!
 
     cd /usr/src/
     wget downloads.asterisk.org/pub/telephony/asterisk/asterisk-13-current.tar.gz
@@ -19,7 +19,7 @@ The patch was built on top of Asterisk 13.6.0. If you use a newer version and th
 
 Install library:
 
-To support transcoding, you’ll need to install the library Codec 2. Since Ubuntu 15.10 and Debian 9.0, the package `libcodec-dev` is available. For earlier releases, for example Ubuntu 14.04 LTS:
+To support transcoding, you’ll need to install the library Codec 2. Since Ubuntu 16.04 LTS and Debian 9.0, the package `libcodec2-dev` is available. For earlier releases, for example Ubuntu 14.04 LTS:
 
     sudo apt-get --assume-yes install dpkg-dev cmake debhelper libspeexdsp-dev
     wget http://archive.ubuntu.com/ubuntu/pool/universe/c/codec2/codec2_0.5-1.dsc
@@ -38,8 +38,8 @@ Apply all patches:
     unzip -qq master.zip
     rm master.zip
     cp --verbose --recursive ./asterisk-codec2*/* ./
-    patch -p0 <./build_codec2.patch
     patch -p0 <./codec2.patch
+    patch -p0 <./build_codec2.patch
 
 Run the bootstrap script to re-generate configure:
 
