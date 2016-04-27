@@ -49,16 +49,14 @@
  	res |= CODEC_REGISTER_AND_CACHE(g723);
 --- main/format_cache.c	(Asterisk 13.6.0)
 +++ main/format_cache.c	(working copy)
-@@ -230,2 +230,9 @@
+@@ -230,2 +230,7 @@
  /*!
 + * \brief Built-in cached codec2 format.
 + */
 +struct ast_format *ast_format_codec2;
 +
 +/*!
-+
-+/*!
-  * \brief Built-in "null" format.
+  * \brief Built-in cached t140 format.
 @@ -294,2 +301,3 @@
  
 +	ao2_replace(ast_format_codec2, NULL);
