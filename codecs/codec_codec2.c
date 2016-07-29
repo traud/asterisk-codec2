@@ -135,7 +135,7 @@ static struct ast_translator codec2tolin = {
 		.type = AST_MEDIA_TYPE_AUDIO,
 		.sample_rate = 8000,
 	},
-	.format = "slin8",
+	.format = "slin",
 	.newpvt = codec2_new,
 	.framein = codec2tolin_framein,
 	.destroy = codec2_destroy_stuff,
