@@ -14,7 +14,7 @@
  
 +AST_EXT_LIB_CHECK([CODEC2], [codec2], [codec2_create], [codec2/codec2.h])
 +
- AST_EXT_LIB_CHECK([COROSYNC], [cpg], [cpg_join], [corosync/cpg.h], [-lcfg])
+ AST_EXT_LIB_CHECK([SPEEX], [speex], [speex_encode], [speex/speex.h], [-lm])
 --- makeopts.in	(Asterisk 13.6.0)
 +++ makeopts.in	(working copy)
 @@ -127,2 +127,5 @@
